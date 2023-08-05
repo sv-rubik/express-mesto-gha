@@ -17,14 +17,14 @@ const getUserList = (req, res) => {
 
 // Получить юзера по ID
 // orFail() гарантирует, что если юзер не найден, будет выброшена ошибка, а не null
-// eslint-disable-next-line max-len
-// здесь для примера создам собственную ошибку MyCustomError, дальше использую ошибки по умолчанию от mongoose
 const getUserByID = (req, res) => {
   User.findById(req.params.userId)
-    .orFail(new Error('MyCustomError'))
+    .orFail()
     .then((currentUser) => res.status(200).send({ data: currentUser }))
     .catch((err) => {
-      if (err.message === 'MyCustomError') {
+      if (err instanceof mongoose.Error.CastError) {
+        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Некорректный id' });
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: `Пользователь не найден ${err}` });
       } else {
         res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
@@ -47,9 +47,10 @@ const createUser = (req, res) => {
 };
 
 // Обновить профиль юзера
+// Параметр { new: true }, чтобы ответ возвращал обновленные данные
 const updateUserProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
     .orFail()
     .then((updatedUserData) => res.status(200).send({ data: updatedUserData }))
     .catch((err) => {
@@ -66,7 +67,7 @@ const updateUserProfile = (req, res) => {
 // Обновить аватар юзера
 const updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
     .orFail()
     .then((updatedUserAvatar) => res.status(200).send({ data: updatedUserAvatar }))
     .catch((err) => {

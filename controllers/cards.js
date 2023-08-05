@@ -36,8 +36,10 @@ const deleteCardByID = (req, res) => {
     .orFail()
     .then((currentCard) => res.send({ data: currentCard }))
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_CODE_404_NOT_FOUND).send({ message: `Карточка не найдена ${err}` });
+      if (err instanceof mongoose.Error.CastError) {
+        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Передан некорректный ID' });
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
+        res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
         res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
       }
@@ -54,8 +56,8 @@ const likeCardByID = (req, res) => {
     .orFail()
     .then((currentCard) => res.send({ data: currentCard }))
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+      if (err instanceof mongoose.Error.CastError) {
+        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Передан некорректный ID' });
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
@@ -74,8 +76,8 @@ const deleteLikeFromCard = (req, res) => {
     .orFail()
     .then((currentCard) => res.send({ data: currentCard }))
     .catch((err) => {
-      if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+      if (err instanceof mongoose.Error.CastError) {
+        res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: 'Передан некорректный ID' });
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
