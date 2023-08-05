@@ -12,7 +12,7 @@ const getCardsList = (req, res) => {
   Card.find({})
     .then((cardsList) => res.status(200).send({ data: cardsList }))
     .catch((err) => {
-      res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка сервера ${err}` });
+      res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
     });
 };
 
@@ -25,7 +25,7 @@ const createCard = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: `Переданы некорректные данные ${err}` });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -41,7 +41,7 @@ const deleteCardByID = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -61,7 +61,7 @@ const likeCardByID = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -81,7 +81,7 @@ const deleteLikeFromCard = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Карточка не найдена' });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };

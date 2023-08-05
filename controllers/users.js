@@ -27,7 +27,7 @@ const getUserByID = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: `Пользователь не найден ${err}` });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -41,7 +41,7 @@ const createUser = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res.status(ERROR_CODE_400_BAD_REQUEST).send({ message: `Переданы некорректные данные ${err}` });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -63,7 +63,7 @@ const updateUserProfile = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Пользователь не найден' });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
@@ -83,7 +83,7 @@ const updateUserAvatar = (req, res) => {
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         res.status(ERROR_CODE_404_NOT_FOUND).send({ message: 'Пользователь не найден' });
       } else {
-        res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` });
+        res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` });
       }
     });
 };
