@@ -12,7 +12,7 @@ const {
 const getUserList = (req, res) => {
   User.find({})
     .then((usersList) => res.send({ data: usersList }))
-    .catch((err) => res.status(ERROR_CODE_500_SERVER).send({ message: `Произошла ошибка ${err}` }));
+    .catch((err) => res.status(ERROR_CODE_500_SERVER).send({ message: `На сервере произошла ошибка ${err}` }));
 };
 
 // Получить юзера по ID
