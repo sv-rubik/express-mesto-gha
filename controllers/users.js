@@ -48,9 +48,13 @@ const createUser = (req, res) => {
 
 // Обновить профиль юзера
 // Параметр { new: true }, чтобы ответ возвращал обновленные данные
+// Параметр {runValidators: true} запустит валидацию схемы при обновлении данных
 const updateUserProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
+  User.findByIdAndUpdate(req.user._id, { name, about }, {
+    new: true,
+    runValidators: true,
+  })
     .orFail()
     .then((updatedUserData) => res.status(200).send({ data: updatedUserData }))
     .catch((err) => {
@@ -67,7 +71,10 @@ const updateUserProfile = (req, res) => {
 // Обновить аватар юзера
 const updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
+  User.findByIdAndUpdate(req.user._id, { avatar }, {
+    new: true,
+    runValidators: true,
+  })
     .orFail()
     .then((updatedUserAvatar) => res.status(200).send({ data: updatedUserAvatar }))
     .catch((err) => {
