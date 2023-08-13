@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
 
-const BadRequestsError = require('../utils/errors/BadRequestError'); // 400
+const BadRequestError = require('../utils/errors/BadRequestError'); // 400
 const ForbiddenError = require('../utils/errors/ForbiddenError'); // 403
 const NotFoundError = require('../utils/errors/NotFoundError'); // 404
 
@@ -20,7 +20,7 @@ const createCard = (req, res, next) => {
     .then((cardData) => res.send({ data: cardData }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestsError('Переданы некорректные данные'));
+        next(new BadRequestError('Переданы некорректные данные'));
       } else { next(err); }
     });
 };
@@ -40,7 +40,7 @@ const deleteCardByID = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestsError('Передан некорректный ID'));
+        next(new BadRequestError('Передан некорректный ID'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Карточка не найдена'));
       } else { next(err); }
@@ -58,7 +58,7 @@ const likeCardByID = (req, res, next) => {
     .then((currentCard) => res.send({ data: currentCard }))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestsError('Передан некорректный ID'));
+        next(new BadRequestError('Передан некорректный ID'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Карточка не найдена'));
       } else { next(err); }
@@ -76,7 +76,7 @@ const deleteLikeFromCard = (req, res, next) => {
     .then((currentCard) => res.send({ data: currentCard }))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestsError('Передан некорректный ID'));
+        next(new BadRequestError('Передан некорректный ID'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Карточка не найдена'));
       } else { next(err); }

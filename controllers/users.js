@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 // импорт модели user, сделанной по схеме userSchema
 const User = require('../models/user');
 
-const BadRequestsError = require('../utils/errors/BadRequestError'); // 400
+const BadRequestError = require('../utils/errors/BadRequestError'); // 400
 const NotFoundError = require('../utils/errors/NotFoundError'); // 404
 const ConflictError = require('../utils/errors/ConflictError'); // 409
 
@@ -25,7 +25,7 @@ const getUserByID = (req, res, next) => {
     .then((currentUser) => res.status(200).send({ data: currentUser }))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestsError('Некорректный id'));
+        next(new BadRequestError('Некорректный id'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь не найден'));
       } else { next(err); }
@@ -47,7 +47,7 @@ const createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestsError('Переданы некорректные данные'));
+        next(new BadRequestError('Переданы некорректные данные'));
       } else if (err.code === 11000) {
         next(new ConflictError('Пользователь уже существует'));
       } else { next(err); }
@@ -83,7 +83,7 @@ const updateUserProfile = (req, res, next) => {
     .then((updatedUserData) => res.status(200).send({ data: updatedUserData }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestsError('Переданы некорректные данные'));
+        next(new BadRequestError('Переданы некорректные данные'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь не найден'));
       } else { next(err); }
@@ -101,7 +101,7 @@ const updateUserAvatar = (req, res, next) => {
     .then((updatedUserAvatar) => res.status(200).send({ data: updatedUserAvatar }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestsError('Переданы некорректные данные'));
+        next(new BadRequestError('Переданы некорректные данные'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь не найден'));
       } else { next(err); }
@@ -115,7 +115,7 @@ const getUserProfile = (req, res, next) => {
     .then((currentUser) => res.status(200).send({ data: currentUser }))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestsError('Некорректный id'));
+        next(new BadRequestError('Некорректный id'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь не найден'));
       } else { next(err); }

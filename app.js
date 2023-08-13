@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 
 const { PORT = 3000, BASE_PATH = 'localhost' } = process.env;
 
@@ -34,6 +35,7 @@ app.use('*', auth, (req, res, next) => {
 });
 
 // важно ставить обработчик ошибок после остальных midllewares и маршрутов
+app.use(errors()); // TODO
 app.use(errorsHandler);
 
 app.listen(PORT, () => {
