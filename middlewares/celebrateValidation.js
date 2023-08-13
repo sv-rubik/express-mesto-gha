@@ -4,7 +4,7 @@ const { celebrate, Joi } = require('celebrate');
 
 const regExp = /(www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,})/;
 
-const validateLogin = celebrate({
+const validateCreateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
@@ -25,7 +25,7 @@ const validateUserID = celebrate({
   }),
 });
 
-const validateCreateUser = celebrate({
+const validateLogin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email().min(4)
       .max(30),
