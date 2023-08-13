@@ -79,7 +79,7 @@ const updateUserProfile = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    .orFail()
+    // .orFail()
     .then((updatedUserData) => res.status(200).send({ data: updatedUserData }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -97,7 +97,7 @@ const updateUserAvatar = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    .orFail()
+    // .orFail()
     .then((updatedUserAvatar) => res.status(200).send({ data: updatedUserAvatar }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -111,7 +111,7 @@ const updateUserAvatar = (req, res, next) => {
 // Получить профиль юзера
 const getUserProfile = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail()
+    // .orFail()
     .then((currentUser) => res.status(200).send({ data: currentUser }))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
