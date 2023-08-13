@@ -111,14 +111,18 @@ const updateUserAvatar = (req, res, next) => {
 // Получить профиль юзера
 const getUserProfile = (req, res, next) => {
   User.findById(req.user._id)
-    // .orFail()
-    .then((currentUser) => res.status(200).send({ data: currentUser }))
+    .orFail()
+    .then((currentUser) => {
+      res.status(200).send({ data: currentUser });
+    })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Некорректный id'));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь не найден'));
-      } else { next(err); }
+      } else {
+        next(err);
+      }
     });
 };
 
