@@ -35,7 +35,7 @@ app.use('*', auth, (req, res, next) => {
 });
 
 // важно ставить обработчик ошибок после остальных midllewares и маршрутов
-app.use(errors()); // TODO
+app.use(errors());
 app.use(errorsHandler);
 
 app.listen(PORT, () => {
