@@ -28,7 +28,7 @@ const createCard = (req, res, next) => {
 // Удалить карточку
 const deleteCardByID = (req, res, next) => {
   Card.findById(req.params.cardId)
-    .orFail()
+    // .orFail()
     .then((currentCard) => {
       if (!currentCard) { return next(new NotFoundError('Карточка не найдена')); }
       if (!currentCard.owner.equals(req.user._id)) {
@@ -54,8 +54,12 @@ const likeCardByID = (req, res, next) => {
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
   )
-    .orFail()
-    .then((currentCard) => res.send({ data: currentCard }))
+    // .orFail()
+    .then((currentCard) => {
+      if (currentCard) {
+        res.send({ data: currentCard });
+      } else { next(new NotFoundError('Карточка не найдена')); }
+    })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Передан некорректный ID'));
