@@ -17,7 +17,7 @@ const getCardsList = (req, res, next) => {
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((cardData) => res.send({ data: cardData }))
+    .then((cardData) => res.status(201).send({ data: cardData }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные'));
@@ -28,7 +28,7 @@ const createCard = (req, res, next) => {
 // Удалить карточку
 const deleteCardByID = (req, res, next) => {
   Card.findById(req.params.cardId)
-    // .orFail()
+    .orFail()
     .then((currentCard) => {
       if (!currentCard) { return next(new NotFoundError('Карточка не найдена')); }
       if (!currentCard.owner.equals(req.user._id)) {
@@ -54,7 +54,7 @@ const likeCardByID = (req, res, next) => {
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
   )
-    // .orFail()
+    .orFail()
     .then((currentCard) => {
       if (currentCard) {
         res.send({ data: currentCard });
