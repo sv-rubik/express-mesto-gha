@@ -42,7 +42,7 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then(() => res.status(200).send({
+    .then(() => res.status(201).send({
       name, about, avatar, email,
     }))
     .catch((err) => {
@@ -79,7 +79,7 @@ const updateUserProfile = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    // .orFail()
+    .orFail()
     .then((updatedUserData) => res.status(200).send({ data: updatedUserData }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -97,7 +97,7 @@ const updateUserAvatar = (req, res, next) => {
     new: true,
     runValidators: true,
   })
-    // .orFail()
+    .orFail()
     .then((updatedUserAvatar) => res.status(200).send({ data: updatedUserAvatar }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
